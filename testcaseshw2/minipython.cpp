@@ -20,6 +20,7 @@ using namespace std;
 //     std::string::const_iterator it = s.begin();
 //     while (it != s.end() && std::isdigit(*it)) ++it;
 //     return !s.empty() && it == s.end();
+
 // }
 
 // bool is_string(const std::string& s)
@@ -55,7 +56,19 @@ class lexer
     public:
         vector<string> tokenize(string line){
             // initialize the vector
-            vector<string> tokens;  
+            vector<string> tokensV;  
+            vector<string> operatorsV;
+            vector<string> numbersV;
+            vector<string> stringsV; 
+            vector<string> keywordsV;
+            vector<string> identifiersV;
+            vector<string> commentsV;
+            vector<string> whitespacesV;
+            vector<string> newlinesV;
+            vector<string> errorsV;
+            vector<string> unknownsV;
+            vector<string> allV;
+
             // tokenize the line
             //patterns for the regex of : special words, numbers, strings, operators
             string special_words = "if|else|elif|while|for|in|def|return|print|class|import|from|as|pass|break|continue|and|or|not|True|False|None|global|assert|lambda|await";
@@ -83,23 +96,18 @@ class lexer
             sregex_token_iterator iter2(line.begin(), line.end(), numbers_regex, -1);
             sregex_token_iterator end2;
             for (; iter2 != end2; ++iter2) {
-                tokens.push_back(*iter2);
+                numbersV.push_back(*iter2);
             }
-            sregex_token_iterator iter3(line.begin(), line.end(), strings_regex, -1);
-            sregex_token_iterator end3;
-            for (; iter3 != end3; ++iter3) {
-                tokens.push_back(*iter3);
-            }
-            sregex_token_iterator iter4(line.begin(), line.end(), operators_regex, -1);
-            sregex_token_iterator end4; 
-            for (; iter4 != end4; ++iter4) {
-                tokens.push_back(*iter4);
-            }
-
             //loop through tokens and print them
             for (int i = 0; i < tokens.size(); i++) {
                 cout << tokens[i] << endl;
             }
+
+            for (int j =0; j < numbersV.size(); j++)
+            {
+                cout << numbersV[j] << endl;
+            }
+            
 
             // return the tokens
             return tokens;

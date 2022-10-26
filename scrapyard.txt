@@ -1,0 +1,69 @@
+// 1. Create a lexer
+class Lexer{
+public:
+    Lexer(string input){
+        this->input = input;
+        this->pos = 0;
+        this->current_char = this->input[this->pos];
+    }
+    void error(){
+        throw std::runtime_error("Error Parsing Input");
+    }
+    void advance(){
+        this->pos += 1;
+        if(this->pos > this->input.length() - 1){
+            this->current_char = '0';
+        }else{
+            this->current_char = this->input[this->pos];
+        }
+    }
+    void skip_whitespace(){
+        while(this->current_char != '0' && isspace(this->current_char)){
+            this->advance();
+        }
+    }
+    string integer(){
+        string result = "";
+        while(this->current_char != '0' && isdigit(this->current_char)){
+            result += this->current_char;
+            this->advance();
+        }
+        return result;
+    }
+    string get_next_token(){
+        while(this->current_char != '0'){
+            if(isspace(this->current_char)){
+                this->skip_whitespace();
+                continue;
+            }
+            if(isdigit(this->current_char)){
+                return this->integer();
+            }
+            if(this->current_char == '+'){
+                this->advance();
+                return "+";
+            }
+            if(this->current_char == '-'){
+                this->advance();
+                return "-";
+            }
+            if(this->current_char == '*'){
+                this->advance();
+                return "*";
+            }
+            if(this->current_char == '/'){
+                this->advance();
+                return "/";
+            }
+            this->error();
+        }
+        return "EOF";
+    }
+private:
+    string input;
+    int pos;
+    char current_char;
+};
+
+// 4. execute the file
+class Interpreter
